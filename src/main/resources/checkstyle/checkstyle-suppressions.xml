@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC
+        "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+        "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+
+<suppressions>
+    <!-- Suppress Checks on the Main Class because it use SpringBootConfiguration -->
+    <suppress files=".+Application\.java" checks="HideUtilityClassConstructor" />
+    <!-- Suppress certain checks on all file -->
+    <suppress files="." checks="JavadocType" />
+    <suppress files="." checks="JavadocVariable" />
+    <suppress files="." checks="MissingJavadocMethod" />
+    <suppress files="." checks="LineLength" />
+    <suppress files="." checks="FinalParameters" />
+    <suppress files="." checks="AvoidStarImport" />
+    <suppress files="." checks="HiddenField" />
+    <suppress files="." checks="DesignForExtension" />
+    <suppress files="." checks="ParameterNumber" />
+</suppressions>
+

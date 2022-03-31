@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+
+  app:
+    container_name: spring-insalute
+    # Image comes from Dockerfile (not online)
+    image: spring-insalute
+    build:
+      context: ../../Downloads/2020_assignment3_insalute-master
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/insalute_db
+      #- SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+# Database (PostgreSQL) service
+  db:
+    image: 'postgres:latest'
+    container_name: postgres-insalute
+    # Maps 5432 port (localhost) to port 5432 on the container
+    ports:
+      - "5432:5432"
+    # Database variables setup
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=abracadabra
+      - POSTGRES_DB=insalute_db
+    volumes:
+      # Create Tables for PostgreSQL DB given an SQL file (10- in filename is because files are processed in ASCII code)
+      - ./src/main/resources/db/create_tables.sql:/docker-entrypoint-initdb.d/10-create_tables.sql
+      # Insert data in PostgreSQL DB given an SQL file (20- in filename is because files are processed in ASCII code)
+      - ./src/main/resources/db/insert_data.sql:/docker-entrypoint-initdb.d/20-insert_data.sql
+    # Perform a db service health check
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
